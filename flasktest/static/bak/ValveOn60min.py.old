@@ -1,0 +1,81 @@
+#!/usr/bin/env python
+import RPi.GPIO as GPIO
+from time import sleep
+from datetime import datetime
+
+GPIO.setmode(GPIO.BCM)
+valve = 17
+GPIO.setup(valve, GPIO.OUT)
+GPIO.output(valve, True)
+
+current_datetime = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
+str_current_datetime = str(current_datetime)
+with open('log.txt', 'a') as file:
+        file.write(str_current_datetime + ' 60min start\n')
+
+#sleep(3600)
+sleep(600)
+current_datetime = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
+str_current_datetime = str(current_datetime)
+#print("1000s 1")
+with open('log.txt', 'a') as file:
+	file.write(str_current_datetime + ' 60min600s1\n')
+
+#sleep(500)
+current_datetime = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
+str_current_datetime = str(current_datetime)
+print("60min500s2")
+with open('log.txt', 'a') as file:
+	file.write(str_current_datetime + ' 60min500s2\n')
+
+#sleep(500)
+current_datetime = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
+str_current_datetime = str(current_datetime)
+with open('log.txt', 'a') as file:
+	file.write(str_current_datetime + ' 60min500s3\n')
+
+#sleep(500)
+print("1600s 3")
+current_datetime = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
+str_current_datetime = str(current_datetime)
+with open('log.txt', 'a') as file:
+        file.write(str_current_datetime + ' 60min500s4\n')
+#sleep(500)
+print("1600s 3")
+current_datetime = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
+str_current_datetime = str(current_datetime)
+with open('log.txt', 'a') as file:
+        file.write(str_current_datetime + ' 60min500s5\n')
+
+#sleep(500)
+print("1600s 3")
+current_datetime = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
+str_current_datetime = str(current_datetime)
+with open('log.txt', 'a') as file:
+        file.write(str_current_datetime + ' 60min500s6\n')
+#sleep(500)
+print("1600s 3")
+current_datetime = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
+str_current_datetime = str(current_datetime)
+with open('log.txt', 'a') as file:
+        file.write(str_current_datetime + ' 60min500s7\n')
+
+
+GPIO.output(valve, False)
+GPIO.cleanup()
+
+current_datetime = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
+str_current_datetime = str(current_datetime)
+with open('log.txt', 'a') as file:
+        file.write(str_current_datetime + ' 60min ended\n')
+
+
+
+
+
+
+
+
+
+
+

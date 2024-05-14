@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live GPIO Status</title>
+<style>
+        .large-button {
+            font-size: 20px; /* Adjust the font size as needed */
+            padding: 10px 20px; /* Adjust padding to increase the size */
+        }
+    </style>
+</head>
+<body>
+
+<button  class="large-button" onclick="run_ValveOff()">Valveoff</button>
+<button  class="large-button" onclick="run_ValveOn60min()">ValveOn60min</button>
+<button  class="large-button" onclick="run_ValveOn10min()">ValveOn10min</button>
+<button  class="large-button" onclick="run_ValveOn()">ValveOn30sec</button>
+<button  class="large-button" onclick="run_clearlog()">clear water log</button>
+<button  class="large-button" onclick="run_clearmoisturelog()">clear moisture log</button>
+<button  class="large-button" onclick="run_clearTemplog()">clear Temperature  log</button>
+
+
+
+    <h3>Sprinkler Status:</h3>
+    <div id="status"></div>
+<h4>Water Log</h4>
+<div id="list">
+  <p><iframe id="logFrame" src="/static/log.txt" frameborder="0" height="200"
+      width="95%"></iframe></p>
+</div>
+
+   <h3>Total Water time:</h3>
+    <div id="totalstatus2"></div>
+
+
+<h4>Soil Moisture Log</h4>
+<div id="list">
+  <p><iframe  id="moisturelogFrame" src="/static/logled.txt" frameborder="0" height="200"
+      width="95%"></iframe></p>
+</div>
+
+<h4>Compost Temp Log</h4>
+<div id="list">
+  <p><iframe id="CompostlogFrame" src="/static/CompostTempLog.txt" frameborder="0" height="200"
+      width="95%"></iframe></p>
+</div>
+
+<img src="static/temperature_plot.png">
+<h1>-------</h1>
+    <script>
+
+	function run_ValveOff() {
+            fetch('/run_ValveOff')
+            .then(response => response.text())
+            .then(data => {
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+
+	function run_ValveOn60min() {
+            fetch('/run_ValveOn60min')
+            .then(response => response.text())
+            .then(data => {
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+
+        function run_ValveOn10min() {
+            fetch('/run_ValveOn10min')
+            .then(response => response.text())
+            .then(data => {
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+
+
+	function run_ValveOn() {
+            fetch('/run_ValveOn')
+            .then(response => response.text())
+            .then(data => {})
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+
+	function run_clearlog() {
+            fetch('/run_clearlog')
+            .then(response => response.text())
+            .then(data => {
+			console.log('Log cleared:', data); // Log success message to console
+		        // Refresh the iframe content by adding a timestamp parameter to the src attribute
+		        var logFrame = document.getElementById('logFrame');
+		        logFrame.src = "/static/log.txt?" + new Date().getTime();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+
+	function run_clearmoisturelog() {
+            fetch('/run_clearmoisturelog')
+            .then(response => response.text())
+            .then(data => {
+                        console.log('Log cleared:', data); // Log success message to console
+                        // Refresh the iframe content by adding a timestamp parameter to the src attribute
+                        var logFrame = document.getElementById('moisturelogFrame');
+                        logFrame.src = "/static/logled.txt?" + new Date().getTime();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+
+       function run_clearTemplog() {
+            fetch('/run_cleartemplog')
+            .then(response => response.text())
+            .then(data => {
+                        console.log('Log cleared:', data); // Log success message to console
+                        // Refresh the iframe content by adding a timestamp parameter to the src attribute
+                        var logFrame = document.getElementById('CompostlogFrame');
+                        logFrame.src = "/static/CompostTempLog.txt?" + new Date().getTime();
+
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+
+
+
+
+        // Function to fetch the pin status from the server
+        function fetchPinStatus() {
+            fetch('/get_pin_status')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('status').innerText = data; // Update the content of the 'status' div
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+
+	function fetchTempGraph() {  
+	    fetch('/get_Temp_Graph')
+            .then(response => response.text())
+            .then(data => {
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+
+        function fetchWaterTotal() {
+            fetch('/TotalWater')
+            .then(response => response.text())
+            .then(data => {
+		var dollarAmt = parseFloat(data) * 0.01 * 60 ;
+                document.getElementById('totalstatus2').innerText = data + " Hours" + " ~ $" + dollarAmt; // Update the content of the 'totalstatus2' div
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+
+
+
+
+        // Fetch pin status initially when the page loads
+        fetchPinStatus();
+	fetchWaterTotal();
+	fetchTempGraph();
+
+        // Periodically fetch pin status every 1 second
+        setInterval(fetchPinStatus, 1000);
+    </script>
+</body>
+</html>
