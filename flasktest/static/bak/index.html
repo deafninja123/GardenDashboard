@@ -1,0 +1,96 @@
+
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GPIO Pin Status</title>
+    <style>
+        .large-button {
+            font-size: 20px; /* Adjust the font size as needed */
+            padding: 10px 20px; /* Adjust padding to increase the size */
+        }
+    </style>
+
+    
+  </head>
+
+
+
+
+  <body>
+    <h1>GPIO Pin Status</h1>
+    <p>Status: {% if pin_status %}ON{% else %}OFF{% endif %}</p>
+	<a href="index.php"></a>    	
+	<a href="ValveOn.py"></a> 
+
+
+	<input type="button" id='script' name="scriptbutton" value=" valve off" onclick="goPython()" class="large-button">
+	<input type="button" id='script' name="scriptbutton" value=" ValveOn 60min" onclick="goPython2()" class="large-button">
+	<input type="button" id='script' name="scriptbutton" value=" ValveOn 30sec " onclick="goPython3()" class="large-button">    
+	 <input type="button" id='script' name="scriptbutton" value=" clear log" onclick="goPython4()" class="large-button">
+
+
+
+<div id="list">
+  <p><iframe src="log.txt" frameborder="0" height="400"
+      width="95%"></iframe></p>
+</div>
+
+
+
+
+
+
+
+
+
+
+<script src="jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script>
+        function goPython(){
+            $.ajax({
+              url: "valveoff.py",
+             context: document.body
+            }).done(function() {
+             alert('finished python script');;
+            });
+        }
+    </script>
+<script>
+        function goPython2(){
+            $.ajax({
+              url: "ValveOn60min.py",
+             context: document.body
+            }).done(function() {
+             alert('finished python script');;
+            });
+        }
+    </script>
+  
+<script>
+        function goPython3(){
+            $.ajax({
+              url: "ValveOn.py",
+             context: document.body
+            }).done(function() {
+             alert('finished python script');;
+            });
+        }
+    </script>
+
+<script>
+        function goPython4(){
+            $.ajax({
+              url: "clearlog.py",
+             context: document.body
+            }).done(function() {
+             alert('finished python script');;
+            });
+        }
+    </script>
+
+
+</body>
+</html>
